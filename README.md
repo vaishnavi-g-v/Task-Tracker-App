@@ -52,9 +52,5 @@ If you are an AI agent (Cursor, Windsurf, etc.) opening this project:
 
 This application uses a local MySQL instance. Credentials entered in the Settings page are stored in an encrypted **Stronghold** database locally on your machine. This project does not currently send your task data to any external servers.
 
----
 
-## 📄 License
-
-MIT. 
 
