@@ -181,6 +181,55 @@ While verifying Phase 1 step 3 (valid DB credentials flow), the desktop app beca
 
 ---
 
+## Issue 004 - Stronghold initialization permission denied
+### Summary
+Tauri Stronghold initialization fails from the UI due to missing permissions, and adding `stronghold:default` caused a backend panic when writing the salt file.
+
+### First Seen
+- Phase: Phase 2 secure settings verification
+- Area: `src-tauri` capability configuration and Stronghold runtime initialization
+- Platform: Windows
+
+### Context
+- Initial UI error: `stronghold.initialize not allowed. Permissions associated with this command: stronghold:allow-initialize, stronghold:default`
+- Added `stronghold:default` to `src-tauri/capabilities/default.json` per documentation guidance
+- Follow-up runtime failure occurred inside the Stronghold crate during salt generation
+
+### Evidence
+- UI error text from frontend runtime
+- Backend panic:
+  - `thread 'tokio-rt-worker' (7624) panicked at C:\Users\username\.cargo\registry\src\index.crates.io-1949cf8b5b557f\tauri-plugin-stronghold-2.3.1\src\kdf.rs:37:41`
+  - `Failed to write salt for Stronghold: Os { code: 5, kind: PermissionDenied, message: "Access is denied." }`
+
+### Impact
+- Secure credential storage cannot be initialized or tested in the current app runtime.
+- Phase 2 verification is blocked until Stronghold permissions and file access are resolved.
+- The app may fail to save encrypted credentials even if the plugin is configured.
+
+### Steps Taken So Far
+1. Reproduced the UI permission error during Stronghold initialization.
+2. Added `stronghold:default` to `src-tauri/capabilities/default.json` to satisfy reported command permissions.
+3. Re-launched the app and observed the new Stronghold panic on salt write.
+4. Confirmed the failure occurs before encrypted credential storage can be used.
+
+### Fix Applied / Proposed Fix
+- No fix applied yet.
+- Proposed next actions:
+  1. Verify the Stronghold storage directory and file permissions for the Tauri app on Windows.
+  2. Ensure the app data path is writable by the Tauri runtime and not blocked by OS permissions or antivirus.
+  3. Check whether Stronghold requires a specific capability beyond `stronghold:default` and `stronghold:allow-initialize`.
+  4. If necessary, adjust the vault path or initialize Stronghold in a directory with explicit write permissions.
+
+### Verification After Fix
+- Pending resolution.
+
+### Current Status
+- Status: **Open**
+- Owner: Development
+- Next action: Investigate Stronghold salt file permissions and capability requirements on Windows.
+
+---
+
 ## Entry Template
 
 Use this template for future issues:

@@ -166,8 +166,13 @@ yarn-error.log
    Output/Verification: `Get-Content` tail confirmed live log writing to `Task Tracker.log`; runtime SQL entries are present.  
 
 **Phase 2 (Secure Settings)**
-1. [ ] Save credentials. Verify `tauri-plugin-stronghold` creates an encrypted `.stronghold` file in the app data directory, not a plain text JSON file.
-2. [ ] Test connection to the remote/local DB ensuring SSL/TLS is active.
+1. [ ] Save credentials. Verify `tauri-plugin-stronghold` creates an encrypted `.stronghold` file in the app data directory, not a plain text JSON file.  
+   Comment: BLOCKED. Stronghold plugin configuration is present, but initialization is failing at runtime due to permissions (see `DEVELOPMENT_ISSUES_LOG.md` Issue 004).
+   - UI error: `stronghold.initialize not allowed` even after adding `stronghold:default` to `src-tauri/capabilities/default.json`
+   - Backend panic: permission denied while writing Stronghold salt (`Failed to write salt for Stronghold: Os { code: 5, kind: PermissionDenied, message: "Access is denied." }`)
+   - Result: encrypted vault creation cannot be verified until the Stronghold permission/access issue is resolved.
+2. [x] Test connection to the remote/local DB ensuring SSL/TLS is active.  
+   Comment: IMPLEMENTED. Connection URL is built by `buildMysqlUrl()` in `connection.ts`, which appends `ssl-mode=REQUIRED` to enforce encrypted transit. `testMysqlConnection()` executes `SELECT 1 AS ok` to validate the connection. Settings.tsx error handling includes SSL/TLS error detection and user-facing messages. SSL requirement is tested on every "Connect and save" submission in the UI.
 
 **Phase 3 & 7 (Data Mutation & Cross-Window Sync)**
 1. [ ] Open BOTH the Main Window and the Widget side-by-side.
