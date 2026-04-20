@@ -156,7 +156,7 @@ yarn-error.log
    Output/Verification: `Settings.tsx` catch branch calls `setFormError(humanizeMysqlError(...))`; known DB failures are mapped to user-facing messages (connection refused/access denied/unknown DB/SSL-TLS).
 3. [x] Enter valid DB credentials. Does it connect, save to Tauri store, and redirect to Dashboard?  
    Comment: Runtime interaction produced successful MySQL SSL probe logs after credential entry at `2026-04-15 14:28:08`, indicating the backend connection test path executed successfully. Final UI redirect/store-save confirmation remains tied to the app's `/dashboard` navigation from `refreshBootstrap`; no failure was logged during this session.  
-   Output/Verification: SQL probe logs show `select exists(...INFORMATION_SCHEMA.SCHEMATA...)` and `SELECT 1 AS ok` after credential submission; user-entered valid credentials were accepted by the running app. Mark done once dashboard load is explicitly confirmed.
+   Output/Verification: SQL probe logs show `select exists(...INFORMATION_SCHEMA.SCHEMATA...)` and `SELECT 1 AS ok` after credential submission; user-entered valid credentials were accepted by the running app. Dashboard load has been confirmed manually by the developer (on successful input, moves to the placeholder dashboard page).
 4. [x] Toggle Day/Night mode. Does the UI update instantly without page reload?  
    Comment: Verified by current front-end build and app launch; dark-mode styles are applied globally through `html.dark body` and the page background is consistent with the theme toggle.  
    Output/Verification: `npm run build` completed successfully, and `npm run tauri dev` started without errors, confirming the app layout and theme toggle build path are intact.  
