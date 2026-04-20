@@ -127,8 +127,7 @@ export default function Settings(): JSX.Element {
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Database settings</h1>
         <p className="mt-1 text-sm opacity-80">
-          Connect to MySQL. Credentials are saved with the Tauri store plugin (Phase 2 will move the password to
-          Stronghold).
+          Connect to MySQL. Credentials are saved securely using Tauri's encrypted Stronghold vault.
         </p>
       </div>
 

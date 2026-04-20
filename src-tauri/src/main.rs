@@ -20,6 +20,7 @@ fn main() {
         )
         .plugin(tauri_plugin_sql::Builder::default().build())
         .plugin(tauri_plugin_store::Builder::default().build())
+        .plugin(tauri_plugin_stronghold::Builder::with_argon2(std::path::Path::new(".")).build())
         .setup(|app| {
             if app.get_webview_window("widget").is_none() {
                 let _widget_window = WebviewWindowBuilder::new(
