@@ -1,0 +1,25 @@
+# --- Security & Secrets ---
+# Prevents the AI from ever seeing your actual local DB password
+.env
+.env*.local
+*.stronghold
+src/db/credentials.ts
+
+# --- Build Artifacts ---
+# Prevents the AI from reading compiled machine code (which it can't understand anyway)
+src-tauri/target/
+dist/
+node_modules/
+
+# --- Logs & Performance ---
+# Keeps the AI from getting bogged down by massive log files
+npm-debug.log*
+yarn-error.log*
+*.log
+
+# --- Documentation Meta-Context ---
+# We WANT the AI to see the .md files, but we don't want it to 
+# index the .git directory itself
+.git/
+
+CURSOR_PLAN_TEMP/*

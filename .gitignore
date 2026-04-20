@@ -1,0 +1,38 @@
+# --- Frontend (Node/Vite) ---
+node_modules/
+dist/
+dist-ssr/
+*.local
+.eslintcache
+.stylelintcache
+
+# --- Backend (Tauri/Rust) ---
+src-tauri/target/
+src-tauri/gen/
+src-tauri/binaries/
+
+# --- Security & Credentials (CRITICAL) ---
+# Ignore the encrypted Stronghold file to prevent others from trying to brute-force it
+*.stronghold
+# Any local environment files containing DB URIs or API keys
+.env
+.env*.local
+# Explicitly ignore the DB credentials shim if used during dev
+src/db/credentials.ts
+
+# --- Database & Backups ---
+# Ignore local database dumps or JSON exports from Phase 8
+backups/
+*.sql
+
+# --- OS / IDE Specific ---
+.DS_Store
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+CURSOR_PLAN_TEMP/*
